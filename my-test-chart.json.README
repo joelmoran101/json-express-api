@@ -1,0 +1,45 @@
+# my-test-chart.json - Documentation
+
+## File Purpose
+🧪 **Additional Test Chart File (fig_1_1.only_one_line.json from Nataly)**
+  Created this file using vim (More advanced)
+		vim my-new-chart.json
+		# Press 'i' to enter insert mode
+		# Paste your JSON (Use Cmd+V to paste)
+		# Press 'Esc', then type ':wq' and press Enter
+- General API testing and validation
+- Content varies based on testing needs
+- Created during API development/testing phase
+
+## File Status
+✅ **Successfully uploaded to MongoDB**
+- Have been uploaded to MongoDB
+- Check API to verify: `curl http://localhost:3001/api/charts`
+
+## To Check Upload Status
+```bash
+# Check all uploaded charts
+curl http://localhost:3001/api/charts
+
+# Look for chart with matching title/description
+curl http://localhost:3001/api/charts | grep "my-test-chart"
+```
+
+## Upload Command Used
+```bash
+# Upload to API
+curl -X POST http://localhost:3001/api/charts \
+  -H "Content-Type: application/json" \
+  -d @my-test-chart.json
+```
+
+## Safe to Delete?
+✅ **YES** - If uploaded to MongoDB  
+❓ **CHECK FIRST** - Verify upload status before deletion
+
+## Delete Command (after confirming upload)
+```bash
+rm my-test-chart.json my-test-chart.json.README
+```
+
+*This comment file was created for documentation purposes and can also be deleted.*

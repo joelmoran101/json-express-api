@@ -1,0 +1,38 @@
+# sample-chart.json - Documentation
+
+## File Purpose
+📊 **Complex Financial Data Test File (chart1.json from Ksenia)**
+- Contains comprehensive multi-company financial analysis
+- Companies: AAPL, AMGN, AMZN, BBWI, BMY
+- Data: Quarterly CCP (Cash and Cash Plus) from 2018-2023
+
+## File Status
+✅ **Successfully uploaded to MongoDB**
+- Chart ID: `68deb8396db01ec0a708a67b`  
+- Upload Date: October 2, 2025
+- API Response: Success
+
+## Upload Command Used
+```bash
+curl -X POST http://localhost:3001/api/charts \
+  -H "Content-Type: application/json" \
+  -d @sample-chart.json
+```
+
+## Data Location
+The chart data is now permanently stored in:
+- **MongoDB Database**: `plotly-charts` collection
+- **API Access**: `GET http://localhost:3001/api/charts/68deb8396db01ec0a708a67b`
+
+## Safe to Delete?
+✅ **YES** - This file can be safely deleted
+- Original data is preserved in MongoDB
+- React app will fetch data via API, not from this file
+- File size: ~20KB (no longer needed on disk)
+
+## Delete Command
+```bash
+rm sample-chart.json sample-chart.json.README
+```
+
+*This comment file was created for documentation purposes and can also be deleted.*

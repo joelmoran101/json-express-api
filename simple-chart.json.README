@@ -1,0 +1,38 @@
+# simple-chart.json - Documentation
+
+## File Purpose
+📈 **Simple Test Chart File**
+- Basic quarterly revenue bar chart (Q1-Q4)
+- Test data: [100, 150, 120, 180] revenue values
+- Created to test API with minimal dataset
+
+## File Status  
+✅ **Successfully uploaded to MongoDB**
+- Chart ID: `68dec4056db01ec0a708a683`
+- Upload Date: October 2, 2025  
+- API Response: Success
+
+## Upload Command Used
+```bash
+curl -X POST http://localhost:3001/api/charts \
+  -H "Content-Type: application/json" \
+  -d @simple-chart.json
+```
+
+## Data Location
+The chart data is now permanently stored in:
+- **MongoDB Database**: `plotly-charts` collection  
+- **API Access**: `GET http://localhost:3001/api/charts/68dec4056db01ec0a708a683`
+
+## Safe to Delete?
+✅ **YES** - This file can be safely deleted
+- Test data is preserved in MongoDB
+- File size: ~400 bytes (minimal impact)
+- Purpose fulfilled (API testing complete)
+
+## Delete Command
+```bash
+rm simple-chart.json simple-chart.json.README
+```
+
+*This comment file was created for documentation purposes and can also be deleted.*
