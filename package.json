@@ -1,20 +1,65 @@
 {
   "name": "json-express-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Secure REST API for storing and retrieving Plotly chart data with MongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=production node app.js",
+    "start:dev": "NODE_ENV=development node app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "dev:watch": "NODE_ENV=development nodemon --inspect app.js",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "lint": "eslint . --ext .js --fix",
+    "format": "prettier --write .",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:fix": "npm audit fix",
+    "docker:build": "docker build -t json-express-api .",
+    "docker:run": "docker run -p 3001:3001 json-express-api",
+    "logs": "tail -f logs/app.log",
+    "db:seed": "node scripts/seed.js",
+    "db:backup": "node scripts/backup.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "api",
+    "express",
+    "mongodb",
+    "plotly",
+    "charts",
+    "rest",
+    "security",
+    "helmet",
+    "rate-limiting"
+  ],
+  "author": "Joel Moran",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0",
+    "express": "^4.18.2",
     "mongoose": "^8.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
-  }
+    "dotenv": "^16.3.1",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "express-mongo-sanitize": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelmoran101/json-express-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joelmoran101/json-express-api/issues"
+  },
+  "homepage": "https://github.com/joelmoran101/json-express-api#readme"
 }
