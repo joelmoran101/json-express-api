@@ -13,6 +13,7 @@ handleUnhandledRejection();
 
 // Import required modules
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const connectDB = require('./config/database');
 
 // Import middleware
@@ -29,6 +30,7 @@ const {
 
 // Import routes
 const chartRoutes = require('./routes/charts');
+const authRoutes = require('./routes/auth');
 
 // Create Express application
 const app = express();
@@ -82,6 +84,9 @@ app.use(express.urlencoded({
 // Data sanitization against NoSQL query injection
 app.use(sanitizeInput);
 
+// Cookie parsing middleware (must be after body parsers)
+app.use(cookieParser());
+
 // =============================================================================
 // ROUTES
 // =============================================================================
@@ -103,7 +108,11 @@ app.get('/', (req, res) => {
         'POST /api/charts': 'Upload a new Plotly chart',
         'POST /api/charts/:id/duplicate': 'Duplicate an existing chart',
         'PUT /api/charts/:id': 'Update a specific chart',
-        'DELETE /api/charts/:id': 'Delete a specific chart'
+        'DELETE /api/charts/:id': 'Delete a specific chart',
+        'POST /api/auth/login': 'Login with email and password',
+        'POST /api/auth/logout': 'Logout and clear authentication cookie',
+        'GET /api/auth/me': 'Get current user information',
+        'GET /api/auth/status': 'Check authentication status'
       }
     },
     meta: {
@@ -118,6 +127,7 @@ app.get('/', (req, res) => {
 
 // API routes
 app.use('/api/charts', chartRoutes);
+app.use('/api/auth', authRoutes);
 
 // Health check endpoint for monitoring
 app.get('/health', (req, res) => {
