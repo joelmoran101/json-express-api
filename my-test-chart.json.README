@@ -1,6 +1,20 @@
 # my-test-chart.json - Documentation
 
-## File Purpose
+## Why File Method is Best for Complex Plotly JSON
+File Method Benefits:
+•  Handles complex JSON with Unicode characters, escapes, etc.
+•  No shell escaping issues - the JSON is read as-is
+•  Perfect for large/complex Plotly data 
+•  Easy to version control and reuse
+•  Best for production workflows
+
+📝 Alternative Methods Available:
+
+1. GUI Tools like Postman/Insomnia:
+•  Visual interface for API testing
+•  Easy JSON editing
+•  Request history
+
 🧪 **Additional Test Chart File (fig_1_1.only_one_line.json from Nataly)**
   Created this file using vim (More advanced)
 		vim my-new-chart.json

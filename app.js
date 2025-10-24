@@ -27,6 +27,11 @@ const {
   notFoundHandler, 
   globalErrorHandler 
 } = require('./middleware/errorHandler');
+const { 
+  validateCSRF, 
+  csrfTokenHandler,
+  autoGenerateCSRF 
+} = require('./middleware/csrf');
 
 // Import routes
 const chartRoutes = require('./routes/charts');
@@ -88,6 +93,19 @@ app.use(sanitizeInput);
 app.use(cookieParser());
 
 // =============================================================================
+// CSRF PROTECTION
+// =============================================================================
+
+// Automatically generate CSRF token on first GET request
+app.use(autoGenerateCSRF);
+
+// CSRF token endpoint - clients can request a fresh token
+app.get('/api/csrf-token', csrfTokenHandler);
+
+// Apply CSRF validation to all API routes (except GET/HEAD/OPTIONS)
+app.use('/api', validateCSRF);
+
+// =============================================================================
 // ROUTES
 // =============================================================================
 
@@ -102,15 +120,16 @@ app.get('/', (req, res) => {
       timestamp: new Date().toISOString(),
       endpoints: {
         'GET /': 'API health check and information',
+        'GET /api/csrf-token': 'Get CSRF token for secure requests',
         'GET /api/charts': 'Get all charts (with pagination)',
         'GET /api/charts/:id': 'Get a specific chart by ID',
         'GET /api/charts/:id/stats': 'Get chart statistics',
-        'POST /api/charts': 'Upload a new Plotly chart',
-        'POST /api/charts/:id/duplicate': 'Duplicate an existing chart',
-        'PUT /api/charts/:id': 'Update a specific chart',
-        'DELETE /api/charts/:id': 'Delete a specific chart',
-        'POST /api/auth/login': 'Login with email and password',
-        'POST /api/auth/logout': 'Logout and clear authentication cookie',
+        'POST /api/charts': 'Upload a new Plotly chart (requires CSRF token)',
+        'POST /api/charts/:id/duplicate': 'Duplicate an existing chart (requires CSRF token)',
+        'PUT /api/charts/:id': 'Update a specific chart (requires CSRF token)',
+        'DELETE /api/charts/:id': 'Delete a specific chart (requires CSRF token)',
+        'POST /api/auth/login': 'Login with email and password (requires CSRF token)',
+        'POST /api/auth/logout': 'Logout and clear authentication cookie (requires CSRF token)',
         'GET /api/auth/me': 'Get current user information',
         'GET /api/auth/status': 'Check authentication status'
       }

@@ -9,6 +9,8 @@ A Node.js Express API for storing and retrieving complete Plotly JSON chart figu
 - ✅ Input validation for Plotly data
 - 🔄 Full CRUD operations (Create, Read, Update, Delete)
 - 🌐 CORS enabled for React frontend integration
+- 🛡️ **CSRF protection** with double-submit cookie pattern
+- 🔒 Enhanced security (rate limiting, input sanitization, security headers)
 - 📝 Comprehensive error handling
 - 🏷️ Chart metadata support (title, description, tags)
 
@@ -164,6 +166,39 @@ const ChartComponent = ({ chartId }) => {
 };
 ```
 
+## 🛡️ CSRF Protection
+
+**All state-changing requests (POST, PUT, DELETE) require a CSRF token.**
+
+### Quick Setup
+
+```javascript
+// 1. Read CSRF token from cookie (auto-generated on first request)
+const csrfToken = document.cookie
+  .split('; ')
+  .find(row => row.startsWith('XSRF-TOKEN='))
+  ?.split('=')[1];
+
+// 2. Include token in request headers
+fetch('http://localhost:3001/api/charts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': csrfToken  // ← Required!
+  },
+  credentials: 'include',  // ← Important!
+  body: JSON.stringify({ plotlyData: {...} })
+});
+```
+
+### Get CSRF Token Endpoint
+
+```bash
+curl -c cookies.txt http://localhost:3001/api/csrf-token
+```
+
+📚 **See full documentation:** `docs/CSRF_PROTECTION.md`
+
 ## Data Structure
 
 ### Chart Document Schema
@@ -243,10 +278,25 @@ The API includes comprehensive error handling for:
 
 ## Security Considerations
 
-- Input validation for all incoming data
-- CORS configuration for frontend domains
-- MongoDB injection protection via Mongoose
-- Error messages don't expose internal system details in production
+This API implements multiple layers of security:
+
+### 🛡️ CSRF Protection
+- **Double-submit cookie pattern** for CSRF protection
+- Automatic token generation on first request
+- 24-hour token expiration
+- 📚 Full docs: `docs/CSRF_PROTECTION.md`
+
+### 🔒 Additional Security Features
+- **Input validation** - All incoming data validated
+- **CORS configuration** - Restricts cross-origin requests
+- **Rate limiting** - Prevents brute force attacks
+- **MongoDB injection protection** - Via Mongoose and input sanitization
+- **Security headers** - Helmet.js for HTTP security headers
+- **Error handling** - No internal details exposed in production
+
+### 📚 Documentation
+- CSRF Protection: `docs/CSRF_PROTECTION.md`
+- Quick Reference: `docs/CSRF_QUICK_REFERENCE.md`
 
 ## License
 
