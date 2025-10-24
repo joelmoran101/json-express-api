@@ -1,6 +1,18 @@
 # Plotly Chart Storage API
 
-A Node.js Express API for storing and retrieving complete Plotly JSON chart figures with MongoDB.
+A Node.js React Express API for storing and retrieving complete Plotly JSON chart figures with MongoDB. 
+This backend is part of the load-json-data React application ecosystem for rendering Plotly JSON files through different backend APIs.
+
+🎯 Project Overview
+This Express API backend is one of two tested backend implementations for the load-json-data React application. It provides a RESTful API for storing, retrieving, updating, and deleting Plotly chart configurations with comprehensive security features.
+
+Related Projects
+load-json-data: Main React frontend application for rendering Plotly charts
+json-express-api: Alternative Express.js backend implementation
+fastAPI-backend (this project): Python FastAPI implementation
+
+
+![Architecture Diagram](docs/images/architecture-diagram.png)
 
 ## Features
 
@@ -45,6 +57,8 @@ A Node.js Express API for storing and retrieving complete Plotly JSON chart figu
 5. Start the server:
    ```bash
    npm start
+    or
+   node app.js
    ```
    
    For development with auto-reload:
