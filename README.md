@@ -8,8 +8,8 @@ This Express API backend is one of two tested backend implementations for the lo
 
 Related Projects
 load-json-data: Main React frontend application for rendering Plotly charts
-json-express-api: Alternative Express.js backend implementation
-fastAPI-backend (this project): Python FastAPI implementation
+json-express-api (this project): React-Express.js backend implementation
+fastAPI-backend : Alternative Python FastAPI implementation
 
 
 ![Architecture Diagram](docs/images/architecture-diagram.png)
