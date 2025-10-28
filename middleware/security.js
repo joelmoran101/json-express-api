@@ -90,11 +90,18 @@ const corsConfig = cors({
       process.env.CORS_ORIGIN.split(',').map(url => url.trim()) : 
       ['http://localhost:3000', 'http://127.0.0.1:3000'];
     
+    // Check exact match
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`Origin ${origin} not allowed by CORS policy`));
+      return callback(null, true);
     }
+    
+    // Check if origin matches Vercel preview pattern
+    const vercelPattern = /^https:\/\/load-json-data.*\.vercel\.app$/;
+    if (vercelPattern.test(origin)) {
+      return callback(null, true);
+    }
+    
+    callback(new Error(`Origin ${origin} not allowed by CORS policy`));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
