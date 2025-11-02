@@ -1,18 +1,33 @@
 const mongoose = require('mongoose');
 
+// Cache connection for serverless
+let cachedConnection = null;
+
 const connectDB = async () => {
   try {
     if (!process.env.MONGODB_URI) {
       throw new Error('MONGODB_URI environment variable is not defined');
     }
     
+    // Reuse cached connection in serverless environment
+    if (cachedConnection && mongoose.connection.readyState === 1) {
+      console.log('♻️  Reusing cached MongoDB connection');
+      return cachedConnection;
+    }
+    
     console.log('Attempting to connect to MongoDB...');
     console.log('Connection string (masked):', process.env.MONGODB_URI.replace(/:[^:@]+@/, ':****@'));
     
+    // Optimized settings for serverless
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000, // Increased for serverless cold starts
       socketTimeoutMS: 45000,
+      maxPoolSize: 10, // Connection pool for serverless
+      minPoolSize: 1,
+      maxIdleTimeMS: 10000,
     });
+    
+    cachedConnection = conn;
     
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     console.log(`📊 Database: ${conn.connection.name}`);
